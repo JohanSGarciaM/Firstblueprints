@@ -10,7 +10,9 @@ var app = (function(api){
 
     function getBlueprintsAuthor(){
         author = $("#author-input").val();
+        
         api.getBlueprintsByAuthor(author,blueprints);
+
     }
 
     var blueprints = function(data){
@@ -28,7 +30,7 @@ var app = (function(api){
                 }
             });
             newdata.map((elements) => {
-                $("#table > tbody:last").append($("<tr><td>" + elements.name + "</td><td>" + elements.points.toString()+ "</td><td>" + "<button id=" + elements.name + " onclick=app.getBlueprintsAuthorAndname('"+ author + "','" + elements.name + "')>open</button>" + "</td>"));
+                $("#table > tbody:last").append($("<tr><td>" + elements.name + "</td><td>" + elements.points.toString()+ "</td><td>" + "<button id=" + elements.name + " onclick=app.getBlueprintsByNameAndAuthor('"+ author + "','" + elements.name + "')>open</button></td></tr>"));
             });
             const total = newdata.reduce((suma,{points}) => suma + points , 0);
 
@@ -36,28 +38,32 @@ var app = (function(api){
         }  
     }
 
-    function getBlueprintsAuthorAndname(author,bpname){
-        api.getBlueprintsAuthorAndname(author,bpname);
+    function getBlueprintsByNameAndAuthor(author,bpname){
+        api.getBlueprintsByNameAndAuthor(author,bpname,canvas);
+
     }
 
     var canvas = function(data){
-        $(document).ready(function(){
+        $(document).ready(function(){   
             var canvas = document.getElementById("myCanvas");
-            var contexto = c.getContext("2d");
-            canvas.width = canvas.witdth;
+            var contexto = canvas.getContext("2d");
+            canvas.width = canvas.width;
+            
+            contexto.lineWidth=3;
+            contexto.strokeStyle="black";
+            contexto.beginPath();
+            contexto.moveTo(0,0);
             data.points.map((element) => {
                 contexto.lineTo(element.x,element.y);
             });
-            contexto.fillStyle ="red";
+            contexto.fillStyle ="orange";
             contexto.fill();
-            contexto.strokeStyle="black";
-            contexto.lineWidth=2;
             contexto.stroke();
         });
     }
     return{
         changeAuthor:changeAuthor,
         getBlueprintsAuthor:getBlueprintsAuthor,
-        getBlueprintsAuthorAndname:getBlueprintsAuthorAndname
+        getBlueprintsByNameAndAuthor:getBlueprintsByNameAndAuthor
     }
-})(apimock);
+})(apiclient);
