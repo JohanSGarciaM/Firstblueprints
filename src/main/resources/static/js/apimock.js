@@ -1,4 +1,3 @@
-//@author hcadavid
 
 apimock=(function(){
 

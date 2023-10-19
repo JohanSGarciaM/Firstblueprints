@@ -1,4 +1,4 @@
-//author JohanGarcia
+//author Johan Garcia
 var app = (function(api){
     //list of objects that contains, blueprint name, number of points of blueprint
     var bpname;
